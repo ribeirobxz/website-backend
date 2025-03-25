@@ -1,4 +1,5 @@
 # website-backend
+This project is for the purpose of studying **KTor**, it contains the back-end of a website for Minecraft servers
 
 ## Features
 
