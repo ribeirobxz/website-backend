@@ -1,7 +1,7 @@
 package com.website.repository.impl
 
 import com.website.mapping.suspendTransaction
-import com.website.model.WebsiteUser
+import com.website.model.user.WebsiteUser
 import com.website.repository.WebsiteUserRepository
 import com.website.repository.dao.WebsiteUserDAO
 import com.website.repository.dao.toModel

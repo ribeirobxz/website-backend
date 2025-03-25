@@ -1,6 +1,6 @@
 package com.website.repository.dao
 
-import com.website.model.WebsiteUser
+import com.website.model.user.WebsiteUser
 import com.website.repository.table.WebsiteUserTable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

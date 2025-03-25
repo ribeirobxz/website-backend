@@ -1,6 +1,6 @@
 package com.website.repository
 
-import com.website.model.WebsiteUser
+import com.website.model.user.WebsiteUser
 
 interface WebsiteUserRepository {
 

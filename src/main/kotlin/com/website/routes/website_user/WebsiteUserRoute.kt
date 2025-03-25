@@ -1,6 +1,6 @@
 package com.website.routes.website_user
 
-import com.website.model.WebsiteUser
+import com.website.model.user.WebsiteUser
 import com.website.repository.impl.PostgresWebsiteUserRepository
 import com.website.util.JWTUtil
 import io.ktor.http.*
