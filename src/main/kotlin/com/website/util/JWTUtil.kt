@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.website.dotenv
 import com.website.model.user.WebsiteUser
-import java.util.Date
+import java.util.*
 
 object JWTUtil {
 

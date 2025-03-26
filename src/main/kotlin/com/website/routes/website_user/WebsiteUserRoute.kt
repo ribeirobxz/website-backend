@@ -26,6 +26,12 @@ fun Route.createCreateWebsiteUserRoute() {
                 return@post
             }
 
+            val groupsReceived = websiteUserReceived.groups
+            if (groupsReceived.isEmpty()) {
+                call.respond(HttpStatusCode.BadRequest, "groups cant be empty")
+                return@post
+            }
+
             val websiteUser = PostgresWebsiteUserRepository.findByName(websiteUserReceived.playerName)
             if (websiteUser != null) {
                 call.respond(HttpStatusCode.BadRequest, "already exist user with this playerName")
@@ -59,20 +65,40 @@ fun Route.createDeleteAllWebsiteUsersRoute() {
 }
 
 fun Route.createGetWebsiteUserRoute() {
-    get("/users/{playername}") {
-        val playerName = call.parameters["playername"]
-        if (playerName.isNullOrEmpty()) {
-            call.respond(HttpStatusCode.BadRequest, "invalid playername")
-            return@get
-        }
+    route("/users") {
+        route("/{playername}") {
+            get {
+                val playerName = call.parameters["playername"]
+                if (playerName.isNullOrEmpty()) {
+                    call.respond(HttpStatusCode.BadRequest, "invalid playername")
+                    return@get
+                }
 
-        val websiteUser = PostgresWebsiteUserRepository.findByName(playerName)
-        if (websiteUser == null) {
-            call.respond(HttpStatusCode.NotFound, "not found this user")
-            return@get
-        }
+                val websiteUser = PostgresWebsiteUserRepository.findByName(playerName)
+                if (websiteUser == null) {
+                    call.respond(HttpStatusCode.NotFound, "not found this user")
+                    return@get
+                }
 
-        call.respond(HttpStatusCode.OK, websiteUser)
+                call.respond(HttpStatusCode.OK, websiteUser)
+            }
+
+            get("/groups") {
+                val playerName = call.parameters["playername"]
+                if (playerName.isNullOrEmpty()) {
+                    call.respond(HttpStatusCode.BadRequest, "invalid playername")
+                    return@get
+                }
+
+                val websiteUser = PostgresWebsiteUserRepository.findByName(playerName)
+                if (websiteUser == null) {
+                    call.respond(HttpStatusCode.NotFound, "not found this user")
+                    return@get
+                }
+
+                call.respond(HttpStatusCode.OK, websiteUser.groups)
+            }
+        }
     }
 }
 
@@ -122,6 +148,6 @@ fun Route.createDeleteWebsiteUserRoute() {
         }
 
         PostgresWebsiteUserRepository.delete(websiteUser)
-        call.respond(HttpStatusCode.OK, websiteUser)
+        call.respond(HttpStatusCode.OK, "user '${websiteUser.playerName}' deleted")
     }
 }

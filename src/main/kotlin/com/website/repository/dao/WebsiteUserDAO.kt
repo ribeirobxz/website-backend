@@ -9,9 +9,16 @@ import org.jetbrains.exposed.dao.id.EntityID
 class WebsiteUserDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<WebsiteUserDAO>(WebsiteUserTable)
 
+    var uniqueId by WebsiteUserTable.uniqueId
     var playerName by WebsiteUserTable.playerName
     var passWord by WebsiteUserTable.passWord
+    var groups by WebsiteUserTable.groups
 
 }
 
-fun WebsiteUserDAO.toModel() = WebsiteUser(playerName, passWord)
+fun WebsiteUserDAO.toModel() = WebsiteUser(
+    uniqueId,
+    playerName,
+    passWord,
+    groups.toMutableList()
+)

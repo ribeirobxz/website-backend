@@ -35,4 +35,5 @@ dependencies {
     implementation(libs.postgres)
     implementation(libs.dotenv.kotlin)
     implementation(libs.exposed.jdbc)
+    implementation(libs.caffeine)
 }

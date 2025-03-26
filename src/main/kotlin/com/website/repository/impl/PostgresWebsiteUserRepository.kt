@@ -24,8 +24,10 @@ object PostgresWebsiteUserRepository : WebsiteUserRepository {
 
     override suspend fun save(websiteUser: WebsiteUser): Unit = suspendTransaction {
         WebsiteUserDAO.new {
+            uniqueId = websiteUser.uniqueId
             playerName = websiteUser.playerName
             passWord = websiteUser.passWord
+            groups = websiteUser.groups
         }
     }
 
@@ -34,6 +36,7 @@ object PostgresWebsiteUserRepository : WebsiteUserRepository {
             WebsiteUserTable.playerName eq websiteUser.playerName
         }) {
             it[passWord] = websiteUser.passWord
+            it[groups] = websiteUser.groups
         }
     }
 

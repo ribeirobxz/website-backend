@@ -1,38 +1,31 @@
 package com.website.model.user
 
+import com.website.cache.group.GroupCache
 import com.website.model.user.group.Group
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import java.util.UUID
+import java.util.*
 
 @Serializable
 data class WebsiteUser(
     val uniqueId: @Contextual UUID = UUID.randomUUID(),
     val playerName: String,
     var passWord: String,
-    var groups: Array<Group>
+    var groups: MutableList<String>
 ) {
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+    val highestGroup
+        get() = groups.mapNotNull { GroupCache.getGroup(it) }
+            .minByOrNull { it.id }
 
-        other as WebsiteUser
+    fun hasGroup(groupId: String): Boolean = groups.contains(groupId)
+    fun hasGroup(group: Group): Boolean = hasGroup(group.id)
 
-        if (uniqueId != other.uniqueId) return false
-        if (playerName != other.playerName) return false
-        if (passWord != other.passWord) return false
-        if (!groups.contentEquals(other.groups)) return false
-
-        return true
+    fun addGroup(group: Group): Boolean {
+        return groups.add(group.id)
     }
 
-    override fun hashCode(): Int {
-        var result = uniqueId.hashCode()
-        result = 31 * result + playerName.hashCode()
-        result = 31 * result + passWord.hashCode()
-        result = 31 * result + groups.contentHashCode()
-        return result
+    fun removeGroup(group: Group): Boolean {
+        return groups.remove(group.id)
     }
-
 }
